@@ -1,0 +1,55 @@
+{
+  "evaluation": {
+    "source": {
+      "name": "violations",
+      "display": "violations",
+      "aggregation": "AGGREGATION_UNSPECIFIED"
+    },
+    "comparison_operator": "GREATER_THAN_OR_EQUAL",
+    "threshold": {
+      "value": {
+        "double_value": 1.0
+      }
+    },
+    "notification": {
+      "retrigger_seconds": 0,
+      "notify_on_ok": false
+    }
+  },
+  "schedule": {
+    "quartz_cron_schedule": "5 0 1 * * ?",
+    "timezone_id": "America/Sao_Paulo"
+  },
+  "query_lines": [
+    "-- Alert: silver.dim_customer_scd violations (SCD Type 2)",
+    "WITH",
+    "scd_multi_curr AS (",
+    "  SELECT COUNT(*) AS c FROM (",
+    "    SELECT customer_id FROM workshop_modelagem.silver.dim_customer_scd WHERE is_current = TRUE GROUP BY customer_id HAVING COUNT(*) > 1",
+    "  ) x",
+    "),",
+    "scd_bad_range AS (",
+    "  SELECT COUNT(*) AS c FROM workshop_modelagem.silver.dim_customer_scd WHERE effective_start >= effective_end",
+    "),",
+    "scd_overlap AS (",
+    "  SELECT COUNT(*) AS c FROM (",
+    "    SELECT customer_id, effective_end,",
+    "           LEAD(effective_start) OVER (PARTITION BY customer_id ORDER BY effective_start) AS next_start",
+    "    FROM workshop_modelagem.silver.dim_customer_scd",
+    "  ) z WHERE next_start IS NOT NULL AND effective_end > next_start",
+    "),",
+    "scd_missing_hash AS (",
+    "  SELECT COUNT(*) AS c FROM workshop_modelagem.silver.dim_customer_scd WHERE row_hash IS NULL",
+    "),",
+    "scd_curr_bad_end AS (",
+    "  SELECT COUNT(*) AS c FROM workshop_modelagem.silver.dim_customer_scd WHERE is_current = TRUE AND date(effective_end) <> DATE('9999-12-31')",
+    ")",
+    "SELECT",
+    "  (SELECT c FROM scd_multi_curr)",
+    "+ (SELECT c FROM scd_bad_range)",
+    "+ (SELECT c FROM scd_overlap)",
+    "+ (SELECT c FROM scd_missing_hash)",
+    "+ (SELECT c FROM scd_curr_bad_end)",
+    "  AS violations;"
+  ]
+}

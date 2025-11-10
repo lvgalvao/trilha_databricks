@@ -1,0 +1,86 @@
+resources:
+  jobs:
+    e_commerce_data_warehouse:
+      name: e-commerce data warehouse
+      schedule:
+        quartz_cron_expression: 50 5 0 * * ?
+        timezone_id: UTC
+        pause_status: UNPAUSED
+      tasks:
+        - task_key: silver_dim_customer_scd
+          sql_task:
+            query:
+              query_id: 2d9defb7-a854-4d13-87f8-7583fec17a10
+            warehouse_id: 9e59e3f62e906b34
+          max_retries: 1
+          min_retry_interval_millis: 900000
+        - task_key: gold_dim_cliente_scd
+          depends_on:
+            - task_key: silver_dim_customer_scd
+          sql_task:
+            query:
+              query_id: e84f2469-a478-45f8-9039-1fb30fecc605
+            warehouse_id: 9e59e3f62e906b34
+          max_retries: 1
+          min_retry_interval_millis: 900000
+        - task_key: gold_dim_clientes
+          depends_on:
+            - task_key: silver_dim_customer_scd
+          sql_task:
+            query:
+              query_id: 831711a4-d2bb-40f1-b153-1d0cc74ba0db
+            warehouse_id: 9e59e3f62e906b34
+          max_retries: 1
+          min_retry_interval_millis: 900000
+        - task_key: silver_order_items_clean
+          sql_task:
+            query:
+              query_id: 228dc234-212c-47a9-b2bb-d36aa5203228
+            warehouse_id: 9e59e3f62e906b34
+          max_retries: 1
+          min_retry_interval_millis: 900000
+        - task_key: silver_orders_clean
+          sql_task:
+            query:
+              query_id: 328868f9-09e8-4875-898e-f8aff30f9670
+            warehouse_id: 9e59e3f62e906b34
+          max_retries: 1
+          min_retry_interval_millis: 900000
+        - task_key: gold_dim_tempo
+          depends_on:
+            - task_key: silver_orders_clean
+          sql_task:
+            query:
+              query_id: 16d3bfa3-5223-4d47-8fc3-e26dfdefb4bb
+            warehouse_id: 9e59e3f62e906b34
+        - task_key: silver_products_clean
+          sql_task:
+            query:
+              query_id: 81236421-e4f6-47f2-ad13-072b0488a0fc
+            warehouse_id: 9e59e3f62e906b34
+          max_retries: 1
+          min_retry_interval_millis: 900000
+        - task_key: gold_dim_produto
+          depends_on:
+            - task_key: silver_products_clean
+          sql_task:
+            query:
+              query_id: f0f43a24-e85a-4e90-ac09-b47a352b67a8
+            warehouse_id: 9e59e3f62e906b34
+          max_retries: 1
+          min_retry_interval_millis: 900000
+        - task_key: gold_fact_vendas
+          depends_on:
+            - task_key: gold_dim_tempo
+            - task_key: gold_dim_cliente_scd
+            - task_key: silver_orders_clean
+            - task_key: silver_order_items_clean
+            - task_key: gold_dim_produto
+          sql_task:
+            query:
+              query_id: d977a6c1-0606-4ec7-b835-91363b59b843
+            warehouse_id: 9e59e3f62e906b34
+          max_retries: 1
+          min_retry_interval_millis: 900000
+      queue:
+        enabled: true

@@ -1,0 +1,51 @@
+{
+  "evaluation": {
+    "source": {
+      "name": "violations",
+      "display": "violations",
+      "aggregation": "AGGREGATION_UNSPECIFIED"
+    },
+    "comparison_operator": "GREATER_THAN_OR_EQUAL",
+    "threshold": {
+      "value": {
+        "double_value": 1.0
+      }
+    },
+    "notification": {
+      "retrigger_seconds": 0,
+      "notify_on_ok": false
+    }
+  },
+  "schedule": {
+    "quartz_cron_schedule": "28 0 1 * * ?",
+    "timezone_id": "America/Sao_Paulo"
+  },
+  "query_lines": [
+    "-- Alert: silver.orders_clean violations",
+    "",
+    "WITH",
+    "orders_dup AS (",
+    "  SELECT COUNT(*) AS c FROM (",
+    "    SELECT order_id FROM workshop_modelagem.silver.orders_clean GROUP BY order_id HAVING COUNT(*) > 1",
+    "  ) x",
+    "),",
+    "orders_nulls AS (",
+    "  SELECT COUNT(*) AS c FROM workshop_modelagem.silver.orders_clean",
+    "  WHERE order_id IS NULL OR order_date IS NULL OR order_status IS NULL OR total_amount IS NULL",
+    "),",
+    "orders_status_bad AS (",
+    "  SELECT COUNT(*) AS c",
+    "  FROM workshop_modelagem.silver.orders_clean",
+    "  WHERE UPPER(TRIM(order_status)) NOT IN ('DELIVERED', 'SHIPPED', 'PROCESSING', 'CANCELLED', 'RETURNED')",
+    "),",
+    "orders_negative AS (",
+    "  SELECT COUNT(*) AS c FROM workshop_modelagem.silver.orders_clean WHERE total_amount < 0",
+    ")",
+    "SELECT",
+    "  (SELECT c FROM orders_dup)",
+    "+ (SELECT c FROM orders_nulls)",
+    "+ (SELECT c FROM orders_status_bad)",
+    "+ (SELECT c FROM orders_negative)",
+    "  AS violations;"
+  ]
+}

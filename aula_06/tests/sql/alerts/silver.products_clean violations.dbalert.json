@@ -1,0 +1,45 @@
+{
+  "evaluation": {
+    "source": {
+      "name": "violations",
+      "display": "violations",
+      "aggregation": "AGGREGATION_UNSPECIFIED"
+    },
+    "comparison_operator": "GREATER_THAN_OR_EQUAL",
+    "threshold": {
+      "value": {
+        "double_value": 1.0
+      }
+    },
+    "notification": {
+      "retrigger_seconds": 0,
+      "notify_on_ok": false
+    }
+  },
+  "schedule": {
+    "quartz_cron_schedule": "41 0 1 * * ?",
+    "timezone_id": "America/Sao_Paulo"
+  },
+  "query_lines": [
+    "-- Alert: silver.products_clean violations",
+    "",
+    "WITH",
+    "prod_dup AS (",
+    "  SELECT COUNT(*) AS c FROM (",
+    "    SELECT product_id FROM workshop_modelagem.silver.products_clean GROUP BY product_id HAVING COUNT(*) > 1",
+    "  ) x",
+    "),",
+    "prod_nulls AS (",
+    "  SELECT COUNT(*) AS c FROM workshop_modelagem.silver.products_clean",
+    "  WHERE product_id IS NULL OR product_name IS NULL OR cost_price IS NULL OR list_price IS NULL OR last_update IS NULL",
+    "),",
+    "prod_negative AS (",
+    "  SELECT COUNT(*) AS c FROM workshop_modelagem.silver.products_clean WHERE cost_price < 0 OR list_price < 0",
+    ")",
+    "SELECT",
+    "  (SELECT c FROM prod_dup)",
+    "+ (SELECT c FROM prod_nulls)",
+    "+ (SELECT c FROM prod_negative)",
+    "  AS violations;"
+  ]
+}
