@@ -4,6 +4,10 @@ Este repositório demonstra, de ponta a ponta, a construção de um pequeno Data
 
 As instruções e notebooks foram pensadas para rodar também no Databricks Free Edition (Community/Trial), com observações sobre ambientes com/sem Unity Catalog.
 
+**Repositórios originais:**
+- Repositório oficial: [github.com/alanceloth/workshop_modelagem_dados_databricks_ao_vivo](https://github.com/alanceloth/workshop_modelagem_dados_databricks_ao_vivo)
+- Repositório da aula ao vivo: [github.com/alanceloth/workshop_modelagem_dados_databricks](https://github.com/alanceloth/workshop_modelagem_dados_databricks)
+
 ## Arquitetura e Fluxo
 
 - **Bronze**: geração/simulação de dados brutos heterogêneos (tipos como string, valores nulos e inconsistências) diretamente em tabelas Delta.

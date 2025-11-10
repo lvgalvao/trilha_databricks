@@ -2,22 +2,11 @@
 
 Este repositório contém os materiais e exercícios práticos da **Trilha de Databricks da Jornada de Dados**, uma formação completa que cobre desde os fundamentos da plataforma até a implementação de um Data Warehouse completo seguindo o padrão Bronze → Silver → Gold.
 
-## Sobre a Trilha
-
-A trilha aborda os **6 grandes requisitos** em projetos de dados modernos através da plataforma Databricks:
-
-1. **Processamento de Dados** - ETL/ELT em lote e streaming
-2. **Armazenamento** - Data warehouse e data lake unificados (Lakehouse)
-3. **Inteligência Artificial** - ML e IA generativa
-4. **Governança** - Segurança, privacidade e compliance (Unity Catalog)
-5. **Compartilhamento** - Colaboração e democratização de dados
-6. **Orquestração** - Gestão inteligente de pipelines (Lakeflow)
-
 ## Aulas Realizadas
 
 | Aula | Duração | Tópico Principal | Conteúdo Abordado |
 |------|---------|------------------|-------------------|
-| **Aula 01** | 1h | Setup Databricks | Introdução à plataforma, os 6 grandes requisitos, principais recursos (Processamento, Lakehouse, IA, Governança, Compartilhamento, Orquestração) |
+| **Aula 01** | 1h | Setup Databricks | Introdução à plataforma e criação da contra Free |
 | **Aula 02** | 1h | Databricks Fundamentals | Conceitos fundamentais da plataforma, interface, clusters e notebooks |
 | **Aula 03** | 1h | Unity Catalog | Governança de dados, catálogo unificado, schemas, tabelas e volumes |
 | **Aula 04** | 1h | Lakeflow Connect | Ingestão de dados, conectores, volumes, Auto Loader e pipelines DLT |
