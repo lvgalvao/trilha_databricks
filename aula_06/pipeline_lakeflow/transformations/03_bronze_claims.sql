@@ -1,5 +1,4 @@
 -- Databricks notebook source
--- COMMAND ----------
 -- DBTITLE 1,Bronze: Ingestão de Claims
 -- Ingestão de dados de claims para a camada bronze usando DLT
 -- Fonte: Volume /Volumes/smart_claims_dev/00_landing/sql_server/claims/
@@ -12,7 +11,7 @@ CREATE OR REFRESH STREAMING TABLE smart_claims_dev.01_bronze.claims
 COMMENT "Tabela bronze com dados brutos de claims (processa todos os arquivos da pasta claims/)"
 AS
 SELECT *
-FROM read_files(
+FROM STREAM read_files(
   '/Volumes/smart_claims_dev/00_landing/sql_server/claims/',
   format => 'csv'
 );
