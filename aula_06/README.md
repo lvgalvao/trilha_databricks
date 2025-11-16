@@ -270,6 +270,17 @@ Esta aula utiliza os **mesmos datasets da Aula 05**:
 
 > 💡 **Nota:** Os datasets devem estar disponíveis no volume configurado na Aula 05. Se necessário, execute os notebooks de setup da Aula 05 antes de iniciar esta aula.
 
+## 📁 Estrutura de Schemas
+
+O pipeline utiliza a seguinte estrutura de schemas no Unity Catalog:
+
+* **`00_landing`** - Volume com arquivos CSV brutos (fonte dos dados)
+* **`01_bronze`** - Tabelas bronze com dados brutos ingeridos
+* **`02_silver`** - Tabelas silver com dados limpos e enriquecidos
+* **`03_gold`** - Views materializadas gold com métricas e agregações
+
+Todos os códigos referenciam explicitamente os schemas completos no formato: `${catalog}.{schema}.{tabela}`
+
 ## 🏗️ Estrutura do Pipeline DLT
 
 O pipeline está organizado na pasta `pipeline_lakeflow/transformations/` seguindo a arquitetura Medallion:
@@ -325,22 +336,22 @@ O pipeline está organizado na pasta `pipeline_lakeflow/transformations/` seguin
 
 3. **Configure as variáveis do pipeline:**
    * `${catalog}` - Nome do catálogo (ex: `smart_claims_dev`)
-   * Os schemas serão inferidos automaticamente pelo DLT
+   * Os schemas são referenciados explicitamente nos códigos: `01_bronze`, `02_silver`, `03_gold`
 
 4. **Monitore a execução:**
    * Acompanhe o progresso na interface do DLT
    * Verifique as tabelas criadas no Unity Catalog
-   * Consulte a view `gold_claims_metrics` para validar os resultados
+   * Consulte a view `${catalog}.03_gold.claims_metrics` para validar os resultados
 
 ## 📈 Resultados Esperados
 
 Após a execução do pipeline, você terá:
 
-* ✅ **Bronze:** 3 tabelas (customers, policies, claims)
-* ✅ **Silver:** 2 tabelas (claims_dedup, claims_enriched)
-* ✅ **Gold:** 1 view materializada (claims_metrics)
+* ✅ **Schema `01_bronze`:** 3 tabelas (customers, policies, claims)
+* ✅ **Schema `02_silver`:** 2 tabelas (claims_dedup, claims_enriched)
+* ✅ **Schema `03_gold`:** 1 view materializada (claims_metrics)
 
-Todas as tabelas estarão disponíveis no Unity Catalog e podem ser consultadas normalmente via SQL.
+Todas as tabelas estarão disponíveis no Unity Catalog e podem ser consultadas normalmente via SQL usando a referência completa: `${catalog}.{schema}.{tabela}`
 
 ## 💡 Vantagens do DLT Demonstradas
 
@@ -356,14 +367,14 @@ Use a pasta `explorations/` para criar notebooks ad-hoc e explorar os dados proc
 
 ```sql
 -- Explorar dados bronze
-SELECT * FROM bronze_customers LIMIT 10;
+SELECT * FROM ${catalog}.01_bronze.customers LIMIT 10;
 
 -- Verificar deduplicação
-SELECT COUNT(*) FROM bronze_claims;
-SELECT COUNT(*) FROM silver_claims_dedup;
+SELECT COUNT(*) FROM ${catalog}.01_bronze.claims;
+SELECT COUNT(*) FROM ${catalog}.02_silver.claims_dedup;
 
 -- Consultar métricas
-SELECT * FROM gold_claims_metrics;
+SELECT * FROM ${catalog}.03_gold.claims_metrics;
 ```
 
 ---

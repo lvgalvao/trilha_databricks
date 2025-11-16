@@ -2,13 +2,13 @@
 -- COMMAND ----------
 -- DBTITLE 1,Gold: Métricas de Claims
 -- Cria view materializada na camada gold com métricas agregadas da tabela claims_enriched
--- Fonte: silver_claims_enriched
--- Destino: ${catalog}.${schema_gold}.claims_metrics
+-- Fonte: ${catalog}.02_silver.claims_enriched
+-- Destino: ${catalog}.03_gold.claims_metrics
 -- 
 -- A view materializada sempre calcula as métricas dinamicamente quando consultada,
 -- garantindo que os dados estejam sempre atualizados
 
-CREATE OR REFRESH MATERIALIZED VIEW gold_claims_metrics
+CREATE OR REFRESH MATERIALIZED VIEW ${catalog}.03_gold.claims_metrics
 COMMENT "View materializada gold com métricas agregadas de claims enriquecidos"
 AS
 SELECT
@@ -18,5 +18,4 @@ SELECT
   COUNT(DISTINCT customer_id) AS unique_customers,
   CONCAT('Join concluido. Total de registros enriquecidos: ', COUNT(*)) AS result_message,
   current_timestamp() AS calculated_at
-FROM silver_claims_enriched;
-
+FROM ${catalog}.02_silver.claims_enriched;
