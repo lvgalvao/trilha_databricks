@@ -33,6 +33,17 @@ Organizei em ordem cronológica e nomeei sequencialmente as aulas.
 | **Aula 15**            | 1h      | Databricks Asset Bundle           | Deploy, versionamento e bundles                                 |
 | **Aula 16**            | 2h      | Lakeflow Project                  | Projeto prático: Lakeflow pipelines + DLT                       |
 
+## 📊 Apresentações das Aulas
+
+Links para as apresentações e materiais das aulas:
+
+- **Boas-vindas**: [Apresentação Canva](https://www.canva.com/design/DAG3Inm_MD4/Rt28PeY86S7vYDMZel7J8g/view?utm_content=DAG3Inm_MD4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h44edc13f4e)
+- **Aula 01 - Setup Databricks**: [Vídeo YouTube](https://youtu.be/KJv1bZ6-gSY?si=uDp2O7mu-5S5LXFf)
+- **Aula 02 - Databricks Fundamentals**: [Apresentação Canva](https://www.canva.com/design/DAG2smFDVAk/szTX6l4QIOSv6DCZZMu_pA/view?utm_content=DAG2smFDVAk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h311113716d)
+- **Aula 03 - Unity Catalog**: [Apresentação Canva](https://www.canva.com/design/DAG3Inm_MD4/Rt28PeY86S7vYDMZel7J8g/view?utm_content=DAG3Inm_MD4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h44edc13f4e)
+- **Aula 04 - Data Ingestion**: [Apresentação Canva](https://www.canva.com/design/DAG3WX3R1yo/nquYSiypAaVnTQXCrc7zxw/view?utm_content=DAG3WX3R1yo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc17ee0f17b)
+- **Aula 05 - Lakeflow Jobs**: [Apresentação Canva](https://www.canva.com/design/DAG3znE1hbg/c4ZBh16Qisw4jNEvUaD5Bw/view?utm_content=DAG3znE1hbg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h342c9cdcd1)
+
 ## Estrutura do Repositório
 
 O repositório está organizado da seguinte forma:
