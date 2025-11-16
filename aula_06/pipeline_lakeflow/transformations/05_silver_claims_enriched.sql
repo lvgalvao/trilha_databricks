@@ -2,10 +2,10 @@
 -- COMMAND ----------
 -- DBTITLE 1,Silver: Claims Enriquecidos
 -- Cria tabela claims_enriched combinando claims deduplicados com policies e customers
--- Fonte: ${catalog}.02_silver.claims_dedup, ${catalog}.01_bronze.policies, ${catalog}.01_bronze.customers
--- Destino: ${catalog}.02_silver.claims_enriched
+-- Fonte: smart_claims_dev.02_silver.claims_dedup, smart_claims_dev.01_bronze.policies, smart_claims_dev.01_bronze.customers
+-- Destino: smart_claims_dev.02_silver.claims_enriched
 
-CREATE OR REFRESH TABLE ${catalog}.02_silver.claims_enriched
+CREATE OR REFRESH TABLE smart_claims_dev.02_silver.claims_enriched
 COMMENT "Tabela silver com claims enriquecidos através de join com policies e customers"
 AS
 SELECT
@@ -49,8 +49,8 @@ SELECT
   cust.zip_code,
   cust.name AS customer_name,
   current_timestamp() AS processed_at
-FROM ${catalog}.02_silver.claims_dedup c
-INNER JOIN ${catalog}.01_bronze.policies p
+FROM smart_claims_dev.02_silver.claims_dedup c
+INNER JOIN smart_claims_dev.01_bronze.policies p
   ON CAST(c.policy_no AS STRING) = CAST(p.POLICY_NO AS STRING)
-INNER JOIN ${catalog}.01_bronze.customers cust
+INNER JOIN smart_claims_dev.01_bronze.customers cust
   ON CAST(p.CUST_ID AS DOUBLE) = CAST(cust.customer_id AS DOUBLE);

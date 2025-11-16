@@ -3,10 +3,10 @@
 -- DBTITLE 1,Silver: Deduplicação de Claims
 -- Deduplicação de claims da camada bronze para silver
 -- Remove duplicatas mantendo apenas o registro mais recente por claim_no
--- Fonte: ${catalog}.01_bronze.claims
--- Destino: ${catalog}.02_silver.claims_dedup
+-- Fonte: smart_claims_dev.01_bronze.claims
+-- Destino: smart_claims_dev.02_silver.claims_dedup
 
-CREATE OR REFRESH TABLE ${catalog}.02_silver.claims_dedup
+CREATE OR REFRESH TABLE smart_claims_dev.02_silver.claims_dedup
 COMMENT "Tabela silver com claims deduplicados (mantém apenas o registro mais recente por claim_no)"
 AS
 SELECT *
@@ -17,6 +17,6 @@ FROM (
       PARTITION BY claim_no 
       ORDER BY claim_date DESC NULLS LAST
     ) AS rn
-  FROM ${catalog}.01_bronze.claims
+  FROM smart_claims_dev.01_bronze.claims
 )
 WHERE rn = 1;
