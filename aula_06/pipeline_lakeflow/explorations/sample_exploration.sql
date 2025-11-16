@@ -36,16 +36,13 @@ SELECT * FROM smart_claims_dev.01_bronze.claims LIMIT 10;
 
 -- COMMAND ----------
 
--- Verificar deduplicação
-SELECT 
-  (SELECT COUNT(*) FROM smart_claims_dev.01_bronze.claims) AS total_bronze,
-  (SELECT COUNT(*) FROM smart_claims_dev.02_silver.claims_dedup) AS total_silver,
-  (SELECT COUNT(*) FROM smart_claims_dev.01_bronze.claims) - (SELECT COUNT(*) FROM smart_claims_dev.02_silver.claims_dedup) AS duplicates_removed;
+-- Explorar claims enriquecidos
+SELECT * FROM smart_claims_dev.02_silver.claims_enriched LIMIT 10;
 
 -- COMMAND ----------
 
--- Explorar claims enriquecidos
-SELECT * FROM smart_claims_dev.02_silver.claims_enriched LIMIT 10;
+-- Verificar total de registros enriquecidos
+SELECT COUNT(*) AS total_enriched FROM smart_claims_dev.02_silver.claims_enriched;
 
 -- COMMAND ----------
 

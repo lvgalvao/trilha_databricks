@@ -1,11 +1,9 @@
 -- Databricks notebook source
 -- COMMAND ----------
 -- DBTITLE 1,Silver: Claims Enriquecidos
--- Cria tabela claims_enriched combinando claims deduplicados com policies e customers
--- Fonte: claims_dedup, policies, customers (tabelas do pipeline)
+-- Cria tabela claims_enriched combinando claims com policies e customers
+-- Fonte: smart_claims_dev.01_bronze.claims, smart_claims_dev.01_bronze.policies, smart_claims_dev.01_bronze.customers
 -- Destino: smart_claims_dev.02_silver.claims_enriched
--- 
--- NOTA: No DLT, ao referenciar tabelas do mesmo pipeline, use apenas o nome da tabela
 
 CREATE OR REFRESH TABLE smart_claims_dev.02_silver.claims_enriched
 COMMENT "Tabela silver com claims enriquecidos através de join com policies e customers"
@@ -51,8 +49,9 @@ SELECT
   cust.zip_code,
   cust.name AS customer_name,
   current_timestamp() AS processed_at
-FROM claims_dedup c
-INNER JOIN policies p
+FROM smart_claims_dev.01_bronze.claims c
+INNER JOIN smart_claims_dev.01_bronze.policies p
   ON CAST(c.policy_no AS STRING) = CAST(p.POLICY_NO AS STRING)
-INNER JOIN customers cust
+INNER JOIN smart_claims_dev.01_bronze.customers cust
   ON CAST(p.CUST_ID AS DOUBLE) = CAST(cust.customer_id AS DOUBLE);
+

@@ -268,6 +268,11 @@ Esta aula utiliza os **mesmos datasets da Aula 05**:
 
 **Localização dos dados:** `/Volumes/smart_claims_dev/00_landing/sql_server/`
 
+Os dados estão organizados em pastas separadas:
+* `customers/` - Pasta com arquivos CSV de customers
+* `policies/` - Pasta com arquivos CSV de policies
+* `claims/` - Pasta com arquivos CSV de claims (claims.csv, claims_02.csv, etc.)
+
 > 💡 **Nota:** Os datasets devem estar disponíveis no volume configurado na Aula 05. Se necessário, execute os notebooks de setup da Aula 05 antes de iniciar esta aula.
 
 ## 📁 Estrutura de Schemas
@@ -289,32 +294,32 @@ O pipeline está organizado na pasta `pipeline_lakeflow/transformations/` seguin
 
 Todas as tabelas bronze usam **CREATE OR REFRESH TABLE** com ingestão batch:
 
-1. **`01_bronze_customers.sql`** - Ingestão de dados de customers usando `read_files()` com caminho específico
-2. **`02_bronze_policies.sql`** - Ingestão de dados de policies usando `read_files()` com caminho específico
-3. **`03_bronze_claims.sql`** - Ingestão de dados de claims usando `read_files()` com padrão glob `claims*.csv` (processa todos os arquivos que correspondem)
+1. **`01_bronze_customers.sql`** - Ingestão de dados de customers usando `read_files()` com pasta `customers/`
+2. **`02_bronze_policies.sql`** - Ingestão de dados de policies usando `read_files()` com pasta `policies/`
+3. **`03_bronze_claims.sql`** - Ingestão de dados de claims usando `read_files()` com pasta `claims/` (processa todos os arquivos da pasta)
 
 **Características:**
-* Cada arquivo CSV é ingerido separadamente preservando os nomes dos arquivos
-* Usa caminhos específicos para cada tipo de arquivo (customers.csv, policies.csv, claims*.csv)
+* Cada pasta é ingerida separadamente preservando a organização dos arquivos
+* Usa apenas o caminho da pasta (não precisa especificar o nome do arquivo)
+* O `read_files()` processa automaticamente todos os arquivos CSV dentro de cada pasta
 * Processamento batch com `CREATE OR REFRESH` para reprocessamento automático
 
 ### ✨ Camada Silver (Transformação e Limpeza)
 
-Todas as tabelas silver usam **CREATE OR REFRESH TABLE**:
+A camada silver usa **CREATE OR REFRESH TABLE**:
 
-1. **`04_silver_claims_dedup.sql`** - Deduplicação de claims usando subquery com `ROW_NUMBER()` (mantém apenas o registro mais recente por `claim_no`)
-2. **`05_silver_claims_enriched.sql`** - Enriquecimento de claims através de joins com policies e customers
+1. **`04_silver_claims_enriched.sql`** - Enriquecimento de claims através de joins diretos com policies e customers
 
 **Características:**
 * Processamento batch com lógica de transformação
-* Joins entre tabelas bronze para enriquecimento
-* Referências usando apenas o nome da tabela (DLT resolve automaticamente)
+* Joins diretos entre tabelas bronze usando endereços completos (`smart_claims_dev.01_bronze.*`)
+* Referências explícitas aos schemas completos para maior clareza
 
 ### 🏆 Camada Gold (Agregações e Métricas)
 
 A camada gold usa **MATERIALIZED VIEW** para agregações otimizadas:
 
-1. **`06_gold_claims_metrics.sql`** - View materializada com métricas agregadas usando `FROM` (sem STREAM)
+1. **`05_gold_claims_metrics.sql`** - View materializada com métricas agregadas usando endereço completo da tabela silver
 
 **Características:**
 * Agregações otimizadas automaticamente
@@ -327,7 +332,7 @@ A camada gold usa **MATERIALIZED VIEW** para agregações otimizadas:
 |---------|------------------------|---------------|
 | **Sintaxe** | `CREATE TABLE ... AS SELECT` | `CREATE OR REFRESH TABLE` (Bronze/Silver) e `MATERIALIZED VIEW` (Gold) |
 | **Orquestração** | Lakeflow Jobs com múltiplas tasks | Pipeline único declarativo |
-| **Deduplicação** | Script SQL manual com `ROW_NUMBER()` | Mesma lógica, mas declarativa |
+| **Transformação** | Joins manuais entre tabelas | Joins declarativos entre tabelas bronze |
 | **Dependências** | Gerenciadas manualmente no Job | Gerenciadas automaticamente pelo DLT |
 | **Reprocessamento** | DROP TABLE manual antes de recriar | `CREATE OR REFRESH` automático |
 | **Ingestão** | Caminhos específicos por arquivo CSV | Caminhos específicos por arquivo CSV (preserva nomes) |
@@ -373,7 +378,7 @@ A camada gold usa **MATERIALIZED VIEW** para agregações otimizadas:
 Após a execução do pipeline, você terá:
 
 * ✅ **Schema `01_bronze`:** 3 tabelas (customers, policies, claims)
-* ✅ **Schema `02_silver`:** 2 tabelas (claims_dedup, claims_enriched)
+* ✅ **Schema `02_silver`:** 1 tabela (claims_enriched)
 * ✅ **Schema `03_gold`:** 1 view materializada (claims_metrics)
 
 Todas as tabelas estarão disponíveis no Unity Catalog e podem ser consultadas normalmente via SQL usando a referência completa: `smart_claims_dev.{schema}.{tabela}`
@@ -397,9 +402,9 @@ Use a pasta `explorations/` para criar notebooks ad-hoc e explorar os dados proc
 -- Explorar dados bronze
 SELECT * FROM smart_claims_dev.01_bronze.customers LIMIT 10;
 
--- Verificar deduplicação
+-- Verificar total de registros
 SELECT COUNT(*) FROM smart_claims_dev.01_bronze.claims;
-SELECT COUNT(*) FROM smart_claims_dev.02_silver.claims_dedup;
+SELECT COUNT(*) FROM smart_claims_dev.02_silver.claims_enriched;
 
 -- Consultar métricas
 SELECT * FROM smart_claims_dev.03_gold.claims_metrics;
