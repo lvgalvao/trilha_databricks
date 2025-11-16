@@ -7,8 +7,11 @@
 -- 
 -- A view materializada sempre calcula as métricas dinamicamente quando consultada,
 -- garantindo que os dados estejam sempre atualizados
+-- 
+-- NOTA: No DLT, o schema é definido na configuração do pipeline.
+-- A view será criada no schema configurado para a camada gold (03_gold)
 
-CREATE OR REFRESH MATERIALIZED VIEW ${catalog}.03_gold.claims_metrics
+CREATE OR REFRESH MATERIALIZED VIEW gold_claims_metrics
 COMMENT "View materializada gold com métricas agregadas de claims enriquecidos"
 AS
 SELECT
