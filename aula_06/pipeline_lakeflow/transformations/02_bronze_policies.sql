@@ -7,7 +7,7 @@
 -- 
 -- Processa automaticamente todos os arquivos dentro da pasta policies/
 
-CREATE OR REFRESH TABLE smart_claims_dev.01_bronze.policies
+CREATE OR REFRESH STREAMING TABLE smart_claims_dev.01_bronze.policies
 COMMENT "Tabela bronze com dados brutos de policies"
 AS
 SELECT *

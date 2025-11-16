@@ -5,7 +5,7 @@
 -- Fonte: smart_claims_dev.01_bronze.claims, smart_claims_dev.01_bronze.policies, smart_claims_dev.01_bronze.customers
 -- Destino: smart_claims_dev.02_silver.claims_enriched
 
-CREATE OR REFRESH TABLE smart_claims_dev.02_silver.claims_enriched
+CREATE OR REFRESH STREAMING TABLE smart_claims_dev.02_silver.claims_enriched
 COMMENT "Tabela silver com claims enriquecidos através de join com policies e customers"
 AS
 SELECT

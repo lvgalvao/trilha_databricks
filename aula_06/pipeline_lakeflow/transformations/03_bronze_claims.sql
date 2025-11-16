@@ -8,7 +8,7 @@
 -- Processa automaticamente todos os arquivos dentro da pasta claims/
 -- Isso inclui: claims.csv, claims_02.csv, claims_03.csv, etc.
 
-CREATE OR REFRESH TABLE smart_claims_dev.01_bronze.claims
+CREATE OR REFRESH STREAMING TABLE smart_claims_dev.01_bronze.claims
 COMMENT "Tabela bronze com dados brutos de claims (processa todos os arquivos da pasta claims/)"
 AS
 SELECT *
