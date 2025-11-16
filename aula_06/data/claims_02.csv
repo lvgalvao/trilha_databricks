@@ -1,0 +1,24 @@
+claim_no,policy_no,claim_date,months_as_customer,injury,property,vehicle,total,collision_type,number_of_vehicles_involved,age,insured_relationship,license_issue_date,date,hour,type,severity,number_of_witnesses,suspicious_activity
+a1b2c3d4-e5f6-7890-abcd-ef1234567890,202150001,2021-03-15,45,1250,1250,8750,11250,Front Collision,2,28.0,wife,15-03-2015,2021-06-20,14,Multi-vehicle Collision,Minor Damage,1,false
+b2c3d4e5-f6a7-8901-bcde-f12345678901,202150002,2021-04-22,78,3450,6900,27600,37950,Side Collision,3,35.0,husband,22-07-2018,2021-08-10,9,Multi-vehicle Collision,Major Damage,2,false
+c3d4e5f6-a7b8-9012-cdef-123456789012,202150003,2021-05-10,92,5670,5670,34020,45360,Rear Collision,1,42.0,own-child,10-11-2010,2021-09-15,18,Single Vehicle Collision,Minor Damage,0,true
+d4e5f6a7-b8c9-0123-defa-234567890123,202150004,2021-06-18,156,8900,17800,62300,89000,Front Collision,4,29.0,unmarried,18-05-2016,2021-10-22,7,Multi-vehicle Collision,Total Loss,3,false
+e5f6a7b8-c9d0-1234-efab-345678901234,202150005,2021-07-05,234,12340,12340,86380,111060,Side Collision,2,51.0,not-in-family,05-09-2008,2021-11-30,12,Multi-vehicle Collision,Major Damage,1,true
+f6a7b8c9-d0e1-2345-fabc-456789012345,202150006,2021-08-12,67,2340,4680,32760,39780,Rear Collision,1,38.0,other-relative,12-12-2014,2021-12-05,21,Parked Car,Minor Damage,0,false
+a7b8c9d0-e1f2-3456-abcd-567890123456,202150007,2021-09-20,189,15670,7835,54845,78350,Front Collision,3,44.0,husband,20-02-2012,2022-01-10,8,Multi-vehicle Collision,Total Loss,2,true
+b8c9d0e1-f2a3-4567-bcde-678901234567,202150008,2021-10-28,278,6780,13560,54240,74580,Side Collision,4,26.0,wife,28-04-2017,2022-02-14,16,Multi-vehicle Collision,Major Damage,1,false
+c9d0e1f2-a3b4-5678-cdef-789012345678,202150009,2021-11-15,345,11230,5615,44920,61765,Rear Collision,2,59.0,own-child,15-08-2005,2022-03-22,11,Single Vehicle Collision,Minor Damage,3,false
+d0e1f2a3-b4c5-6789-defa-890123456789,202150010,2021-12-03,412,9870,4935,44415,59220,Front Collision,1,33.0,unmarried,03-11-2016,2022-04-18,19,Vehicle Theft,Total Loss,0,true
+e1f2a3b4-c5d6-7890-efab-901234567890,202150011,2022-01-11,89,4560,9120,41040,54720,Side Collision,3,31.0,not-in-family,11-01-2019,2022-05-25,6,Multi-vehicle Collision,Minor Damage,2,false
+f2a3b4c5-d6e7-8901-fabc-012345678901,202150012,2022-02-19,134,13450,6725,47175,67250,Rear Collision,4,47.0,other-relative,19-06-2013,2022-06-30,13,Multi-vehicle Collision,Major Damage,1,true
+a3b4c5d6-e7f8-9012-abcd-123456789012,202150013,2022-03-27,256,7890,15780,55110,78900,Front Collision,2,25.0,wife,27-03-2018,2022-08-05,22,Single Vehicle Collision,Minor Damage,0,false
+b4c5d6e7-f8a9-0123-bcde-234567890123,202150014,2022-04-14,298,10230,10230,71560,92020,Side Collision,1,54.0,husband,14-09-2011,2022-09-12,10,Multi-vehicle Collision,Total Loss,3,false
+c5d6e7f8-a9b0-1234-cdef-345678901234,202150015,2022-05-22,167,5680,11360,45440,62480,Rear Collision,3,36.0,own-child,22-12-2015,2022-10-20,15,Multi-vehicle Collision,Minor Damage,1,true
+d6e7f8a9-b0c1-2345-defa-456789012345,202150016,2022-06-30,423,14560,7280,58240,80080,Front Collision,4,28.0,unmarried,30-07-2017,2022-11-28,4,Multi-vehicle Collision,Major Damage,2,false
+e7f8a9b0-c1d2-3456-efab-567890123456,202150017,2022-07-18,56,3210,6420,38520,48150,Side Collision,2,41.0,not-in-family,18-10-2014,2022-12-15,17,Parked Car,Minor Damage,0,false
+f8a9b0c1-d2e3-4567-fabc-678901234567,202150018,2022-08-25,312,8760,4380,35040,48180,Rear Collision,1,39.0,other-relative,25-01-2012,2023-01-22,20,Single Vehicle Collision,Total Loss,1,true
+a9b0c1d2-e3f4-5678-abcd-789012345678,202150019,2022-09-12,445,12340,12340,86380,111060,Front Collision,3,52.0,husband,12-05-2009,2023-02-28,9,Multi-vehicle Collision,Major Damage,2,false
+b0c1d2e3-f4a5-6789-bcde-890123456789,202150020,2022-10-20,178,6540,13080,52320,71940,Side Collision,4,30.0,wife,20-08-2016,2023-04-05,14,Multi-vehicle Collision,Minor Damage,1,false
+
+
+
