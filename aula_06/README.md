@@ -287,30 +287,54 @@ O pipeline está organizado na pasta `pipeline_lakeflow/transformations/` seguin
 
 ### 📦 Camada Bronze (Ingestão)
 
-1. **`01_bronze_customers.sql`** - Ingestão de dados de customers
-2. **`02_bronze_policies.sql`** - Ingestão de dados de policies
-3. **`03_bronze_claims.sql`** - Ingestão de dados de claims (processa todos os arquivos `claims*.csv`)
+Todas as tabelas bronze são **STREAMING TABLE** para processamento incremental automático:
+
+1. **`01_bronze_customers.sql`** - Ingestão de dados de customers usando `FROM STREAM read_files()`
+2. **`02_bronze_policies.sql`** - Ingestão de dados de policies usando `FROM STREAM read_files()`
+3. **`03_bronze_claims.sql`** - Ingestão de dados de claims usando `FROM STREAM read_files()` (processa todos os arquivos `claims*.csv`)
+
+**Características:**
+* Processamento incremental com checkpoints automáticos
+* Adiciona colunas `processing_time` e `source_file` automaticamente
+* Detecta novos arquivos automaticamente
 
 ### ✨ Camada Silver (Transformação e Limpeza)
 
-1. **`04_silver_claims_dedup.sql`** - Deduplicação de claims (mantém apenas o registro mais recente por `claim_no`)
-2. **`05_silver_claims_enriched.sql`** - Enriquecimento de claims através de join com policies e customers
+Todas as tabelas silver são **STREAMING TABLE** para processamento incremental:
+
+1. **`04_silver_claims_dedup.sql`** - Deduplicação de claims usando `FROM STREAM` (mantém apenas o registro mais recente por `claim_no`)
+2. **`05_silver_claims_enriched.sql`** - Enriquecimento de claims usando `FROM STREAM` com joins incrementais
+
+**Características:**
+* Processa apenas novos dados incrementalmente
+* Mantém histórico e atomicidade automaticamente
+* Joins incrementais entre tabelas streaming
 
 ### 🏆 Camada Gold (Agregações e Métricas)
 
-1. **`06_gold_claims_metrics.sql`** - View materializada com métricas agregadas
+A camada gold usa **MATERIALIZED VIEW** para agregações otimizadas:
+
+1. **`06_gold_claims_metrics.sql`** - View materializada com métricas agregadas usando `FROM` (sem STREAM)
+
+**Características:**
+* Agregações otimizadas automaticamente
+* Atualização incremental quando possível
+* Consultas rápidas para BI e Analytics
 
 ## 🔄 Comparação: Aula 05 vs Aula 06
 
 | Aspecto | Aula 05 (Lakeflow Jobs) | Aula 06 (DLT) |
 |---------|------------------------|---------------|
-| **Sintaxe** | `CREATE TABLE ... AS SELECT` | `CREATE OR REFRESH TABLE ... AS SELECT` |
+| **Sintaxe** | `CREATE TABLE ... AS SELECT` | `CREATE OR REFRESH STREAMING TABLE` (Bronze/Silver) e `MATERIALIZED VIEW` (Gold) |
 | **Orquestração** | Lakeflow Jobs com múltiplas tasks | Pipeline único declarativo |
 | **Deduplicação** | Script SQL manual com `ROW_NUMBER()` | Mesma lógica, mas declarativa |
 | **Dependências** | Gerenciadas manualmente no Job | Gerenciadas automaticamente pelo DLT |
 | **Reprocessamento** | DROP TABLE manual antes de recriar | `CREATE OR REFRESH` automático |
-| **Incremental** | Processamento completo a cada execução | Processamento incremental automático |
+| **Incremental** | Processamento completo a cada execução | Processamento incremental automático com STREAMING TABLE |
 | **Manutenção** | Múltiplos arquivos e configurações | Pipeline único e declarativo |
+| **Bronze** | Tabelas estáticas | STREAMING TABLE com checkpoints automáticos |
+| **Silver** | Tabelas estáticas | STREAMING TABLE com processamento incremental |
+| **Gold** | Views estáticas | MATERIALIZED VIEW com otimizações automáticas |
 
 ## 🚀 Como Executar o Pipeline
 
@@ -359,8 +383,11 @@ Todas as tabelas estarão disponíveis no Unity Catalog e podem ser consultadas 
 1. **Simplicidade:** Menos código, mesma funcionalidade
 2. **Manutenibilidade:** Pipeline único e declarativo
 3. **Confiabilidade:** Gerenciamento automático de dependências
-4. **Performance:** Processamento incremental automático
+4. **Performance:** Processamento incremental automático com STREAMING TABLE
 5. **Governança:** Integração nativa com Unity Catalog
+6. **Streaming Nativo:** Bronze e Silver como STREAMING TABLE processam apenas novos dados
+7. **Otimizações Automáticas:** MATERIALIZED VIEW na camada Gold com agregações otimizadas
+8. **Checkpoints Automáticos:** Gerenciamento automático de estado e reprocessamento
 
 ## 🔍 Explorando o Pipeline
 

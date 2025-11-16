@@ -5,11 +5,7 @@
 -- Fonte: smart_claims_dev.02_silver.claims_enriched
 -- Destino: smart_claims_dev.03_gold.claims_metrics
 -- 
--- A view materializada sempre calcula as métricas dinamicamente quando consultada,
--- garantindo que os dados estejam sempre atualizados
--- 
--- NOTA: No DLT, o schema é definido na configuração do pipeline.
--- A view será criada no schema configurado para a camada gold (03_gold)
+-- Aggregates the full claims_enriched streaming table with optimizations where applicable
 
 CREATE OR REFRESH MATERIALIZED VIEW smart_claims_dev.03_gold.claims_metrics
 COMMENT "View materializada gold com métricas agregadas de claims enriquecidos"
