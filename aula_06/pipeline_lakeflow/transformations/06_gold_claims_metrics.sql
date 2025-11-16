@@ -5,7 +5,6 @@
 -- Fonte: claims_enriched (tabela silver do pipeline)
 -- Destino: smart_claims_dev.03_gold.claims_metrics
 -- 
--- Aggregates the full claims_enriched streaming table with optimizations where applicable
 -- NOTA: No DLT, ao referenciar tabelas do mesmo pipeline, use apenas o nome da tabela
 
 CREATE OR REFRESH MATERIALIZED VIEW smart_claims_dev.03_gold.claims_metrics

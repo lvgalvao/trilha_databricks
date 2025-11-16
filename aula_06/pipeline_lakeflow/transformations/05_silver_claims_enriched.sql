@@ -5,10 +5,9 @@
 -- Fonte: claims_dedup, policies, customers (tabelas do pipeline)
 -- Destino: smart_claims_dev.02_silver.claims_enriched
 -- 
--- References the streaming tables for incrementally processing
 -- NOTA: No DLT, ao referenciar tabelas do mesmo pipeline, use apenas o nome da tabela
 
-CREATE OR REFRESH STREAMING TABLE smart_claims_dev.02_silver.claims_enriched
+CREATE OR REFRESH TABLE smart_claims_dev.02_silver.claims_enriched
 COMMENT "Tabela silver com claims enriquecidos através de join com policies e customers"
 AS
 SELECT
@@ -52,8 +51,8 @@ SELECT
   cust.zip_code,
   cust.name AS customer_name,
   current_timestamp() AS processed_at
-FROM STREAM claims_dedup c
-INNER JOIN STREAM policies p
+FROM claims_dedup c
+INNER JOIN policies p
   ON CAST(c.policy_no AS STRING) = CAST(p.POLICY_NO AS STRING)
-INNER JOIN STREAM customers cust
+INNER JOIN customers cust
   ON CAST(p.CUST_ID AS DOUBLE) = CAST(cust.customer_id AS DOUBLE);

@@ -287,28 +287,28 @@ O pipeline está organizado na pasta `pipeline_lakeflow/transformations/` seguin
 
 ### 📦 Camada Bronze (Ingestão)
 
-Todas as tabelas bronze são **STREAMING TABLE** para processamento incremental automático:
+Todas as tabelas bronze usam **CREATE OR REFRESH TABLE** com ingestão batch:
 
-1. **`01_bronze_customers.sql`** - Ingestão de dados de customers usando `FROM STREAM read_files()`
-2. **`02_bronze_policies.sql`** - Ingestão de dados de policies usando `FROM STREAM read_files()`
-3. **`03_bronze_claims.sql`** - Ingestão de dados de claims usando `FROM STREAM read_files()` (processa todos os arquivos `claims*.csv`)
+1. **`01_bronze_customers.sql`** - Ingestão de dados de customers usando `read_files()` com caminho específico
+2. **`02_bronze_policies.sql`** - Ingestão de dados de policies usando `read_files()` com caminho específico
+3. **`03_bronze_claims.sql`** - Ingestão de dados de claims usando `read_files()` com padrão glob `claims*.csv` (processa todos os arquivos que correspondem)
 
 **Características:**
-* Processamento incremental com checkpoints automáticos
-* Adiciona colunas `processing_time` e `source_file` automaticamente
-* Detecta novos arquivos automaticamente
+* Cada arquivo CSV é ingerido separadamente preservando os nomes dos arquivos
+* Usa caminhos específicos para cada tipo de arquivo (customers.csv, policies.csv, claims*.csv)
+* Processamento batch com `CREATE OR REFRESH` para reprocessamento automático
 
 ### ✨ Camada Silver (Transformação e Limpeza)
 
-Todas as tabelas silver são **STREAMING TABLE** para processamento incremental:
+Todas as tabelas silver usam **CREATE OR REFRESH TABLE**:
 
-1. **`04_silver_claims_dedup.sql`** - Deduplicação de claims usando `FROM STREAM` (mantém apenas o registro mais recente por `claim_no`)
-2. **`05_silver_claims_enriched.sql`** - Enriquecimento de claims usando `FROM STREAM` com joins incrementais
+1. **`04_silver_claims_dedup.sql`** - Deduplicação de claims usando subquery com `ROW_NUMBER()` (mantém apenas o registro mais recente por `claim_no`)
+2. **`05_silver_claims_enriched.sql`** - Enriquecimento de claims através de joins com policies e customers
 
 **Características:**
-* Processa apenas novos dados incrementalmente
-* Mantém histórico e atomicidade automaticamente
-* Joins incrementais entre tabelas streaming
+* Processamento batch com lógica de transformação
+* Joins entre tabelas bronze para enriquecimento
+* Referências usando apenas o nome da tabela (DLT resolve automaticamente)
 
 ### 🏆 Camada Gold (Agregações e Métricas)
 
@@ -325,15 +325,15 @@ A camada gold usa **MATERIALIZED VIEW** para agregações otimizadas:
 
 | Aspecto | Aula 05 (Lakeflow Jobs) | Aula 06 (DLT) |
 |---------|------------------------|---------------|
-| **Sintaxe** | `CREATE TABLE ... AS SELECT` | `CREATE OR REFRESH STREAMING TABLE` (Bronze/Silver) e `MATERIALIZED VIEW` (Gold) |
+| **Sintaxe** | `CREATE TABLE ... AS SELECT` | `CREATE OR REFRESH TABLE` (Bronze/Silver) e `MATERIALIZED VIEW` (Gold) |
 | **Orquestração** | Lakeflow Jobs com múltiplas tasks | Pipeline único declarativo |
 | **Deduplicação** | Script SQL manual com `ROW_NUMBER()` | Mesma lógica, mas declarativa |
 | **Dependências** | Gerenciadas manualmente no Job | Gerenciadas automaticamente pelo DLT |
 | **Reprocessamento** | DROP TABLE manual antes de recriar | `CREATE OR REFRESH` automático |
-| **Incremental** | Processamento completo a cada execução | Processamento incremental automático com STREAMING TABLE |
+| **Ingestão** | Caminhos específicos por arquivo CSV | Caminhos específicos por arquivo CSV (preserva nomes) |
 | **Manutenção** | Múltiplos arquivos e configurações | Pipeline único e declarativo |
-| **Bronze** | Tabelas estáticas | STREAMING TABLE com checkpoints automáticos |
-| **Silver** | Tabelas estáticas | STREAMING TABLE com processamento incremental |
+| **Bronze** | Tabelas batch com DROP/CREATE | Tabelas batch com CREATE OR REFRESH |
+| **Silver** | Tabelas batch | Tabelas batch com CREATE OR REFRESH |
 | **Gold** | Views estáticas | MATERIALIZED VIEW com otimizações automáticas |
 
 ## 🚀 Como Executar o Pipeline
@@ -383,11 +383,11 @@ Todas as tabelas estarão disponíveis no Unity Catalog e podem ser consultadas 
 1. **Simplicidade:** Menos código, mesma funcionalidade
 2. **Manutenibilidade:** Pipeline único e declarativo
 3. **Confiabilidade:** Gerenciamento automático de dependências
-4. **Performance:** Processamento incremental automático com STREAMING TABLE
+4. **Performance:** Reprocessamento eficiente com `CREATE OR REFRESH`
 5. **Governança:** Integração nativa com Unity Catalog
-6. **Streaming Nativo:** Bronze e Silver como STREAMING TABLE processam apenas novos dados
+6. **Preservação de Arquivos:** Cada CSV é ingerido separadamente preservando os nomes dos arquivos
 7. **Otimizações Automáticas:** MATERIALIZED VIEW na camada Gold com agregações otimizadas
-8. **Checkpoints Automáticos:** Gerenciamento automático de estado e reprocessamento
+8. **Reprocessamento Automático:** `CREATE OR REFRESH` permite reprocessar dados sem DROP manual
 
 ## 🔍 Explorando o Pipeline
 
