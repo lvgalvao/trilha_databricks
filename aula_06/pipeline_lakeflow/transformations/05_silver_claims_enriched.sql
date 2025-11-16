@@ -2,10 +2,11 @@
 -- COMMAND ----------
 -- DBTITLE 1,Silver: Claims Enriquecidos
 -- Cria tabela claims_enriched combinando claims deduplicados com policies e customers
--- Fonte: smart_claims_dev.02_silver.claims_dedup, smart_claims_dev.01_bronze.policies, smart_claims_dev.01_bronze.customers
+-- Fonte: claims_dedup, policies, customers (tabelas do pipeline)
 -- Destino: smart_claims_dev.02_silver.claims_enriched
 -- 
 -- References the streaming tables for incrementally processing
+-- NOTA: No DLT, ao referenciar tabelas do mesmo pipeline, use apenas o nome da tabela
 
 CREATE OR REFRESH STREAMING TABLE smart_claims_dev.02_silver.claims_enriched
 COMMENT "Tabela silver com claims enriquecidos através de join com policies e customers"
@@ -51,8 +52,8 @@ SELECT
   cust.zip_code,
   cust.name AS customer_name,
   current_timestamp() AS processed_at
-FROM STREAM smart_claims_dev.02_silver.claims_dedup c
-INNER JOIN STREAM smart_claims_dev.01_bronze.policies p
+FROM STREAM claims_dedup c
+INNER JOIN STREAM policies p
   ON CAST(c.policy_no AS STRING) = CAST(p.POLICY_NO AS STRING)
-INNER JOIN STREAM smart_claims_dev.01_bronze.customers cust
+INNER JOIN STREAM customers cust
   ON CAST(p.CUST_ID AS DOUBLE) = CAST(cust.customer_id AS DOUBLE);
