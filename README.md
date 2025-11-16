@@ -28,7 +28,7 @@ Antes de começar, certifique-se de ter:
 
 ### 🎓 Aulas Online (Disponíveis na Plataforma)
 
-As primeiras 6 aulas estão disponíveis **online na plataforma** para você estudar no seu ritmo:
+As aulas e workshops abaixo estão disponíveis **online na plataforma** para você estudar no seu ritmo:
 
 | Aula                   | Data                | Duração | Tópico Principal                  | Conteúdo Abordado                                               |
 | ---------------------- | ------------------- | ------- | --------------------------------- | --------------------------------------------------------------- |
@@ -37,13 +37,13 @@ As primeiras 6 aulas estão disponíveis **online na plataforma** para você est
 | **Aula 03**            | Online na plataforma | 1h      | Unity Catalog                     | Governança, catálogos, schemas, tabelas e volumes               |
 | **Aula 04**            | Online na plataforma | 1h      | Data Ingestion + Lakeflow Connect | Ingestão, conectores, volumes, Auto Loader                      |
 | **Aula 05**            | Online na plataforma | 1h      | Lakeflow Jobs                     | Orquestração com Databricks Workflows                           |
+| **Workshop 01**        | Online na plataforma | 4h      | Modelagem de Dados                | Arquitetura medallion, SCD2, fatos, dimensões, views analíticas |
 | **Aula 06**            | Online na plataforma | 1h      | Lakeflow Declarative Pipelines    | Pipelines declarativas com DLT                                  |
 
 ### 🎬 Workshops ao Vivo (Datas Marcadas)
 
 | Workshop               | Data       | Duração | Tópico Principal                  | Conteúdo Abordado                                               |
 | ---------------------- | ---------- | ------- | --------------------------------- | --------------------------------------------------------------- |
-| **Workshop 01**        | 08/11/2024 | 4h      | Modelagem de Dados                | Arquitetura medallion, SCD2, fatos, dimensões, views analíticas |
 | **Workshop 02**        | 06/12/2024 | 4h      | Mosaic AI & LLMs                  | Introdução ao Mosaic AI e ao ecossistema de LLMs                |
 | **Workshop 03**        | 13/12/2024 | 4h      | Ingestão com Erathos              | Ingestão de Dados                                               |
 
