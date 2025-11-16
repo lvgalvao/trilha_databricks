@@ -9,9 +9,11 @@ Bem-vindo(a) à **Trilha de Databricks da Jornada de Dados**! Este repositório 
 **Novo na trilha?** Siga estes passos:
 
 1. ✅ **Assista à aula de boas-vindas** (link abaixo)
-2. 📚 **Acesse a Aula 01** na plataforma online para configurar seu ambiente
+2. 📚 **Acesse as aulas na plataforma**: [Acessar aulas aqui](https://jornadadedados.alpaclass.com/s/conteudos)
 3. 💻 **Clone este repositório** para ter acesso aos materiais práticos
 4. 📖 **Siga a ordem recomendada** de estudo (veja seção abaixo)
+
+> 💡 **Ainda não é aluno?** Visite nosso site [www.suajornadadedados.com.br](https://www.suajornadadedados.com.br) para mais informações sobre a Jornada de Dados.
 
 ### 📋 Pré-requisitos
 
@@ -30,6 +32,8 @@ Antes de começar, certifique-se de ter:
 
 As aulas e workshops abaixo estão disponíveis **online na plataforma** para você estudar no seu ritmo:
 
+> 📚 **Acesse as aulas**: [jornadadedados.alpaclass.com/s/conteudos](https://jornadadedados.alpaclass.com/s/conteudos)
+
 | Aula                   | Data                | Duração | Tópico Principal                  | Conteúdo Abordado                                               |
 | ---------------------- | ------------------- | ------- | --------------------------------- | --------------------------------------------------------------- |
 | **Aula 01**            | Online na plataforma | 1h      | Setup Databricks                  | Configuração do Databricks Free Edition                         |
@@ -45,7 +49,32 @@ As aulas e workshops abaixo estão disponíveis **online na plataforma** para vo
 | Workshop               | Data       | Duração | Tópico Principal                  | Conteúdo Abordado                                               |
 | ---------------------- | ---------- | ------- | --------------------------------- | --------------------------------------------------------------- |
 | **Workshop 02**        | 06/12/2024 | 4h      | Mosaic AI & LLMs                  | Introdução ao Mosaic AI e ao ecossistema de LLMs                |
-| **Workshop 03**        | 13/12/2024 | 4h      | Ingestão com Erathos              | Ingestão de Dados                                               |
+| **Workshop 03**        | 13/12/2024 | 4h      | Ingestão de Dados Avançado        | Ingestão de Dados Avançado em parceria com Erathos             |
+
+> 🔥 **Pré-aquecimento Workshop 03**: Na **terça-feira, 25/11/2024**, teremos um pré-aquecimento ao vivo para mostrar um use case prático de ingestão de dados no Databricks. [Assista ao vivo no YouTube](https://youtube.com/live/3zNL6sHExZU)
+
+### 🤖 Workshop 02 - Mosaic AI & LLMs
+
+**Data:** 06/12/2024 | **Duração:** 4h | **Formato:** Ao vivo
+
+Workshop dedicado à **Inteligência Artificial** no Databricks, explorando:
+
+- Introdução ao Mosaic AI e ao ecossistema de LLMs
+- Aplicações práticas de Large Language Models
+- Integração de IA no pipeline de dados
+
+### 🚀 Workshop 03 - Ingestão de Dados Avançado (Parceria Erathos)
+
+**Data:** 13/12/2024 | **Duração:** 4h | **Formato:** Ao vivo
+
+Workshop avançado sobre **Ingestão de Dados** em parceria com a **Erathos**:
+
+- Técnicas avançadas de ingestão de dados
+- Pipelines de ingestão com Erathos
+- Use cases práticos e melhores práticas
+
+> 📅 **Pré-aquecimento:** Terça-feira, 25/11/2024 - Use case prático de ingestão de dados no Databricks  
+> 🎥 [Assista ao pré-aquecimento ao vivo no YouTube](https://youtube.com/live/3zNL6sHExZU)
 
 ### 📚 Aulas Futuras
 
@@ -74,6 +103,7 @@ Acesse as apresentações e vídeos das aulas já disponíveis:
 - **📊 Aula 03 - Unity Catalog**: [Apresentação Canva](https://www.canva.com/design/DAG3Inm_MD4/Rt28PeY86S7vYDMZel7J8g/view?utm_content=DAG3Inm_MD4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h44edc13f4e)
 - **📊 Aula 04 - Data Ingestion**: [Apresentação Canva](https://www.canva.com/design/DAG3WX3R1yo/nquYSiypAaVnTQXCrc7zxw/view?utm_content=DAG3WX3R1yo&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc17ee0f17b)
 - **📊 Aula 05 - Lakeflow Jobs**: [Apresentação Canva](https://www.canva.com/design/DAG3znE1hbg/c4ZBh16Qisw4jNEvUaD5Bw/view?utm_content=DAG3znE1hbg&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h342c9cdcd1)
+- **🔥 Pré-aquecimento Workshop 03 (25/11)**: [Transmissão ao vivo YouTube](https://youtube.com/live/3zNL6sHExZU)
 
 ---
 
@@ -105,6 +135,7 @@ Para aproveitar ao máximo a trilha, siga esta sequência:
 - ✅ **Leia os READMEs** de cada pasta de aula para entender o contexto
 - ✅ **Execute os exercícios** no seu workspace Databricks
 - ✅ **Participe dos workshops ao vivo** para tirar dúvidas
+- ✅ **Acompanhe o pré-aquecimento** do Workshop 03 (25/11) para ver um use case prático
 - ✅ **Experimente e adapte** os códigos para seus próprios projetos
 
 ---
@@ -127,10 +158,11 @@ Para aproveitar ao máximo a trilha, siga esta sequência:
 
 ## ❓ Precisa de Ajuda?
 
-- 📧 Entre em contato através da plataforma da Jornada de Dados
+- 📚 **Acesse as aulas na plataforma**: [jornadadedados.alpaclass.com/s/conteudos](https://jornadadedados.alpaclass.com/s/conteudos)
 - 💬 Participe das discussões nos workshops ao vivo
 - 📚 Consulte a documentação oficial do Databricks
 - 🔍 Verifique os READMEs específicos de cada aula
+- 🌐 **Ainda não é aluno?** Visite [www.suajornadadedados.com.br](https://www.suajornadadedados.com.br) para mais informações
 
 ---
 
