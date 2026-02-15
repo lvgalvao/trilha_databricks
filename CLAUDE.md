@@ -16,7 +16,8 @@ Each `aula_XX/` directory is a self-contained lesson following a progressive cur
 - `aula_05` - Lakeflow Jobs (orchestration)
 - `aula_06` - Spark Declarative Pipelines (DLT)
 - `aula_07` - PySpark DataFrame API
-- `aula_08` - PySpark with Northwind dataset (in progress, has PRD at `.llm/prd.md`)
+- `aula_08` - PySpark DataFrame API with Northwind dataset (5 notebooks, PRD at `.llm/prd.md`)
+- `jdsummit/` - Jornada de Dados Summit materials
 - `workshop_modelagem_dados/` - Complete data warehouse implementation (SCD2, dimensional modeling)
 - `utils/datasets/` - Synthetic data generators (e.g., `gerador_aula_01.py` using Faker)
 

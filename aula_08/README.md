@@ -154,6 +154,8 @@ aula_08/
 
 Estes relatorios SQL do Northwind sao reconstruidos em PySpark nos notebooks:
 
+![SQL vs PySpark — 7 Relatorios](tabela_sql_pyspark.png)
+
 | # | Relatorio | Bloco | Conceitos PySpark |
 |---|-----------|-------|-------------------|
 | 1 | Receita total 1997 | 03 | `filter(year)`, `join`, `agg(sum)` |
