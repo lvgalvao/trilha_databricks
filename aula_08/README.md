@@ -20,16 +20,6 @@ Este e o primeiro mergulho profundo em PySpark da trilha. Ate agora os alunos us
 
 **Ao final da aula**, o aluno tera construido um pipeline completo: leitura de 5 tabelas → transformacoes e joins → 5 relatorios analiticos salvos como tabelas Delta na camada Gold.
 
-### Conceitos extras para a prova Databricks:
-- Lazy Evaluation (Transformacoes vs Acoes)
-- Hierarquia Job → Stage → Task
-- `collect()` e `row.asDict()`
-- Deployment Modes (Local, Client, Cluster)
-- `spark.sql.shuffle.partitions`
-- Structured Streaming (conceitual)
-- `approx_count_distinct` (HyperLogLog)
-- UDFs (User Defined Functions)
-
 ---
 
 ## Dataset: Northwind Traders
