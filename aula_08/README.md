@@ -2,19 +2,33 @@
 
 ## Objetivo
 
-Ensinar a **PySpark DataFrame API** de forma pratica, reconstruindo relatorios analiticos classicos do banco Northwind — que os alunos ja conhecem em SQL — agora usando Spark.
+Dominar a **PySpark DataFrame API** de forma pratica, reconstruindo 7 relatorios analiticos do banco Northwind — que os alunos ja conhecem em SQL — agora usando Spark puro.
 
-Este e o primeiro mergulho profundo em PySpark da trilha. Ate agora os alunos usaram Databricks principalmente via SQL e conceitos de plataforma.
+Este e o primeiro mergulho profundo em PySpark da trilha. Ate agora os alunos usaram Databricks principalmente via SQL, Unity Catalog, DLT e Lakeflow. Agora vamos escrever **codigo PySpark do zero**.
 
-### O que vamos aprender:
+---
 
-1. **Leitura de dados** com `spark.table()` e `spark.read` (CSV, JSON, Parquet, Delta)
-2. **Transformacoes** com `select`, `filter`, `withColumn`, funcoes de string/data/nulos
-3. **Agregacoes** com `groupBy().agg()` e multiplas funcoes
-4. **Joins** completos: inner, left, right, full, anti, semi, broadcast
-5. **Window Functions**: ranking, YTD, LAG/LEAD, NTILE, pivot
-6. **Escrita** em Delta, Parquet, CSV com controle de modo e particao
-7. **Pipeline completo**: leitura -> transformacao -> escrita
+## Resumo da Aula
+
+| Bloco | Tema | O que voce vai aprender |
+|-------|------|------------------------|
+| **01** | Leitura e Exploracao | `spark.table()`, `spark.read` (CSV/JSON/Parquet/Delta), schema explicito com `StructType`, `printSchema()`, `display()` |
+| **02** | Transformacoes | `select`, `filter`, `withColumn`, `when/otherwise`, funcoes de string, data e tratamento de nulos |
+| **03** | Agregacoes e Joins | `groupBy().agg()`, 7 tipos de join (inner, left, right, full, anti, semi, broadcast), HAVING |
+| **04** | Window Functions | `row_number`, `rank`, `lag/lead`, soma acumulada, `ntile`, pivot tables, UDFs |
+| **05** | Escrita e Projeto Final | Modos de escrita, `partitionBy`, `repartition` vs `coalesce`, pipeline completo Bronze → Gold |
+
+**Ao final da aula**, o aluno tera construido um pipeline completo: leitura de 5 tabelas → transformacoes e joins → 5 relatorios analiticos salvos como tabelas Delta na camada Gold.
+
+### Conceitos extras para a prova Databricks:
+- Lazy Evaluation (Transformacoes vs Acoes)
+- Hierarquia Job → Stage → Task
+- `collect()` e `row.asDict()`
+- Deployment Modes (Local, Client, Cluster)
+- `spark.sql.shuffle.partitions`
+- Structured Streaming (conceitual)
+- `approx_count_distinct` (HyperLogLog)
+- UDFs (User Defined Functions)
 
 ---
 
@@ -62,16 +76,27 @@ customers --< orders --< order_details >-- products >-- categories
 aula_08/
 ├── README.md
 ├── .llm/
-│   └── prd.md                              # PRD com definicao completa
+│   └── prd.md                                  # PRD com definicao completa
 ├── dataset/
-│   └── script.sql                          # Script Databricks SQL (cria e popula as tabelas)
+│   ├── create_tables.sql                       # DDL — cria catalogo, schema e tabelas
+│   ├── insert_tables.sql                       # DML — popula todas as tabelas
+│   └── delete_tables.sql                       # DROP CASCADE — reseta tudo do zero
 └── notebooks/
-    ├── bloco_01_leitura.ipynb              # Leitura e Exploracao (~50 min)
-    ├── bloco_02_transformacoes.ipynb       # Transformacoes Essenciais (~60 min)
-    ├── bloco_03_agregacoes_joins.ipynb     # Agregacoes e Joins (~50 min)
-    ├── bloco_04_window_functions.ipynb     # Window Functions (~40 min)
-    └── bloco_05_escrita_projeto.ipynb      # Escrita e Projeto Final (~40 min)
+    ├── bloco_01_leitura.ipynb                  # Versao para aula (celulas vazias)
+    ├── bloco_01_leitura_full.ipynb             # Gabarito completo
+    ├── bloco_02_transformacoes.ipynb
+    ├── bloco_02_transformacoes_full.ipynb
+    ├── bloco_03_agregacoes_joins.ipynb
+    ├── bloco_03_agregacoes_joins_full.ipynb
+    ├── bloco_04_window_functions.ipynb
+    ├── bloco_04_window_functions_full.ipynb
+    ├── bloco_05_escrita_projeto.ipynb
+    └── bloco_05_escrita_projeto_full.ipynb
 ```
+
+> **Convencao:** cada bloco tem duas versoes:
+> - `bloco_XX.ipynb` — versao para aula ao vivo (celulas de codigo vazias, markdown intacto)
+> - `bloco_XX_full.ipynb` — gabarito com todo o codigo
 
 ---
 
@@ -179,27 +204,15 @@ Estes relatorios SQL do Northwind sao reconstruidos em PySpark nos notebooks:
 ### Passos
 
 1. **Criar o dataset Northwind:**
-   - Abra `dataset/script.sql` no Databricks
-   - Ajuste `${catalog}` pelo nome do seu catalogo
-   - Execute todas as celulas — cria o schema `northwind` com as 8 tabelas
+   - Execute `dataset/create_tables.sql` — cria catalogo, schema e tabelas
+   - Execute `dataset/insert_tables.sql` — popula todas as tabelas com dados
 
-2. **Ajustar catalogo nos notebooks:**
-   - Em cada notebook, altere a variavel `CATALOG` para o nome do seu catalogo:
-   ```python
-   CATALOG = "seu_catalogo_aqui"
-   ```
+2. **Executar os notebooks na ordem:**
+   - Use os `bloco_XX.ipynb` (versao limpa) para aula ao vivo
+   - Use os `bloco_XX_full.ipynb` como gabarito de referencia
 
-3. **Executar os notebooks na ordem:**
-   - `bloco_01_leitura.ipynb`
-   - `bloco_02_transformacoes.ipynb`
-   - `bloco_03_agregacoes_joins.ipynb`
-   - `bloco_04_window_functions.ipynb`
-   - `bloco_05_escrita_projeto.ipynb`
-
-4. **Explorar os resultados:**
-   - Use `display()` para visualizacoes interativas
-   - Use `printSchema()` para ver estruturas
-   - Faca os exercicios ao final de cada bloco
+3. **Resetar o projeto (opcional):**
+   - Execute `dataset/delete_tables.sql` para apagar tudo e comecar do zero
 
 ---
 
