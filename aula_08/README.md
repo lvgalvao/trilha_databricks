@@ -61,11 +61,63 @@ receita = unit_price * quantity * (1.0 - discount)
 
 ### Relacionamentos
 
-```
-customers --< orders --< order_details >-- products >-- categories
-                |                              |
-                +-- employees                  +-- suppliers
-                +-- shippers
+```mermaid
+erDiagram
+    customers ||--o{ orders : "faz"
+    orders ||--|{ order_details : "contem"
+    products ||--o{ order_details : "vendido em"
+    categories ||--o{ products : "classifica"
+    suppliers ||--o{ products : "fornece"
+    employees ||--o{ orders : "processa"
+    shippers ||--o{ orders : "entrega"
+
+    customers {
+        string customer_id PK
+        string company_name
+        string country
+    }
+    orders {
+        int order_id PK
+        string customer_id FK
+        int employee_id FK
+        int ship_via FK
+        date order_date
+        date shipped_date
+        float freight
+    }
+    order_details {
+        int order_id FK
+        int product_id FK
+        float unit_price
+        int quantity
+        float discount
+    }
+    products {
+        int product_id PK
+        string product_name
+        int category_id FK
+        int supplier_id FK
+        float unit_price
+    }
+    categories {
+        int category_id PK
+        string category_name
+    }
+    employees {
+        int employee_id PK
+        string first_name
+        string last_name
+        date hire_date
+    }
+    suppliers {
+        int supplier_id PK
+        string company_name
+        string country
+    }
+    shippers {
+        int shipper_id PK
+        string company_name
+    }
 ```
 
 ---
